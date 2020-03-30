@@ -41,18 +41,16 @@ async function unixInstall(version, sha) {
     let toolDir = toolCache.find('xmake', version);
     if (!toolDir) {
         const sourceDir = await core.group('download xmake', () => git.create(sha));
-        toolDir = await core.group('install2 xmake', async () => {
+        toolDir = await core.group('install xmake', async () => {
             await exec_1.exec('make', ['build'], { cwd: sourceDir });
             const binDir = path.join(os.tmpdir(), `xmake-${version}-${sha}`);
             await exec_1.exec('make', ['install', `prefix=${binDir}`], { cwd: sourceDir });
             const cacheDir = await toolCache.cacheDir(binDir, 'xmake', version);
             await io.rmRF(binDir);
             await git.cleanup(sha);
-            core.info(`downloading from sssss`);
             return cacheDir;
         });
     }
-    core.info(`downloading from xxx`);
     core.addPath(path.join(toolDir, 'bin'));
     core.addPath(path.join(toolDir, 'share', 'xmake'));
 }
