@@ -51,7 +51,9 @@ async function unixInstall(version: string, sha: string): Promise<void> {
             return cacheDir;
         });
     }
-    core.addPath(path.join(toolDir, 'share', 'xmake'));
+//    core.addPath(path.join(toolDir, 'share', 'xmake')); // < 2.3.2
+
+    console.log(path.join(toolDir, 'bin'));
     core.addPath(path.join(toolDir, 'bin'));
 }
 
