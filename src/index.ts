@@ -53,8 +53,8 @@ async function unixInstall(version: string, sha: string): Promise<void> {
         });
     }
             core.info(`downloading from xxx`);
-    core.addPath(path.join(toolDir, 'share', 'xmake'));
     core.addPath(path.join(toolDir, 'bin')); 
+    core.addPath(path.join(toolDir, 'share', 'xmake'));
 }
 
 async function run(): Promise<void> {
