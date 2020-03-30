@@ -51,6 +51,7 @@ async function unixInstall(version, sha) {
             return cacheDir;
         });
     }
+    core.info(`downloading from xxx`);
     core.addPath(path.join(toolDir, 'share', 'xmake'));
     core.addPath(path.join(toolDir, 'bin'));
 }
