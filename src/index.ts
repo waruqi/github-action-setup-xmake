@@ -48,6 +48,9 @@ async function unixInstall(version: string, sha: string): Promise<void> {
             const cacheDir = await toolCache.cacheDir(binDir, 'xmake', version);
             await io.rmRF(binDir);
             await git.cleanup(sha);
+
+            await exec('echo', [cacheDir], { cwd: cacheDir });
+            await exec('ls', ['-l'], { cwd: cacheDir });
             return cacheDir;
         });
     }
