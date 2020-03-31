@@ -12,10 +12,11 @@ async function winInstall(version: string): Promise<void> {
     let toolDir = toolCache.find('xmake', version);
     if (!toolDir) {
         const installer = await core.group('download xmake', async () => {
-            const arch = os.arch() === 'x64' ? 'x64' : 'x86';
+            // we cannot use appveyor ci artifacts, the old version links may be broken.
+            const arch = os.arch() === 'x64' ? 'win64' : 'win32';
             const url = semver.gt(version, '2.2.6')
-                ? `https://ci.appveyor.com/api/projects/waruqi/xmake/artifacts/xmake-installer.exe?tag=v${version}&pr=false&job=Image%3A+Visual+Studio+2017%3B+Platform%3A+${arch}`
-                : `https://github.com/xmake-io/xmake/releases/download/v$v/xmake-v${version}.exe`;
+                ? `https://github.com/xmake-io/xmake/releases/download/v${version}/xmake-v${version}.${arch}.exe`
+                : `https://github.com/xmake-io/xmake/releases/download/v${version}/xmake-v${version}.exe`;
             core.info(`downloading from ${url}`);
             const file = await toolCache.downloadTool(url);
             const exe = path.format({ ...path.parse(file), ext: '.exe', base: undefined });
