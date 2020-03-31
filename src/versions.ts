@@ -9,9 +9,9 @@ export async function selectVersion(version?: string): Promise<{ version: string
     if (version.toLowerCase() === 'latest') version = '';
 
     // select branch
-    if (version.startsWith('@')) {
-        const branch = version.substr(1);
-        core.info(`selected xmake branch: ${branch}`);
+    if (version.startsWith('branch@')) {
+        const branch = version.substr(7);
+        core.info(`Selected xmake branch: ${branch}`);
         return { version: branch, sha: "" };
     }
 
@@ -28,6 +28,6 @@ export async function selectVersion(version?: string): Promise<{ version: string
     }
 
     const sha = versions[ver];
-    core.info(`selected xmake v${ver} (commit: ${sha.substr(0, 8)})`);
+    core.info(`Selected xmake v${ver} (commit: ${sha.substr(0, 8)})`);
     return { version: ver, sha };
 }

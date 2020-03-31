@@ -9,8 +9,8 @@ async function selectVersion(version) {
     if (version.toLowerCase() === 'latest')
         version = '';
     // select branch
-    if (version.startsWith('@')) {
-        const branch = version.substr(1);
+    if (version.startsWith('branch@')) {
+        const branch = version.substr(7);
         core.info(`selected xmake branch: ${branch}`);
         return { version: branch, sha: "" };
     }
