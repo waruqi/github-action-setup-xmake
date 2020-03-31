@@ -11,8 +11,8 @@ async function selectVersion(version) {
     // select branch
     if (version.startsWith('branch@')) {
         const branch = version.substr(7);
-        core.info(`selected xmake branch: ${branch}`);
-        return { version: branch, sha: "" };
+        core.info(`Selected xmake branch: ${branch}`);
+        return { version: branch, sha: branch };
     }
     // select version
     version = semver.validRange(version);
@@ -25,7 +25,7 @@ async function selectVersion(version) {
         throw new Error(`No matched releases of xmake-version: ${version}`);
     }
     const sha = versions[ver];
-    core.info(`selected xmake v${ver} (commit: ${sha.substr(0, 8)})`);
+    core.info(`Selected xmake v${ver} (commit: ${sha.substr(0, 8)})`);
     return { version: ver, sha };
 }
 exports.selectVersion = selectVersion;
