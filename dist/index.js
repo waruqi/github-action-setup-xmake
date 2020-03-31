@@ -17,7 +17,7 @@ async function winInstall(version, sha) {
             if (version.startsWith("branch@")) {
                 // we only use appveyor ci artifacts for branch version
                 const arch = os.arch() === 'x64' ? 'x64' : 'x86';
-                url = `https://ci.appveyor.com/api/projects/waruqi/xmake/artifacts/xmake-installer.exe?tag=${sha}&pr=false&job=Image%%3A+Visual+Studio+2017%%3B+Platform%%3A+${arch}`;
+                url = `https://ci.appveyor.com/api/projects/waruqi/xmake/artifacts/xmake-installer.exe?tag=${sha}&pr=false&job=Image%3A+Visual+Studio+2017%3B+Platform%3A+${arch}`;
             }
             else {
                 // we cannot use appveyor ci artifacts, the old version links may be broken.
