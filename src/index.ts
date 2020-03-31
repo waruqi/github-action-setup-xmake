@@ -61,7 +61,7 @@ async function unixInstall(version: string, sha: string): Promise<void> {
     }
 
     // for versions 2.3.2 and above, xmake will be installed directly into the bin directory, and no script will be used to wrap it.
-    if (semver.gt(version, '2.3.1')) {
+    if (version.startsWith("branch@") || semver.gt(version, '2.3.1')) {
         core.addPath(path.join(toolDir, 'bin'));
     } else {
         core.addPath(path.join(toolDir, 'share', 'xmake')); // only for <= 2.3.1
