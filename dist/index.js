@@ -9,10 +9,15 @@ const path = require("path");
 const semver = require("semver");
 const git = require("./git");
 const versions_1 = require("./versions");
-async function winInstall(version) {
+async function winInstall(version, sha) {
+    if (version.startsWith("branch@")) {
+        const { version, sha } = await versions_1.selectVersion("latest");
+        await winInstall(version, sha);
+        return;
+    }
     let toolDir = toolCache.find('xmake', version);
     if (!toolDir) {
-        const installer = await core.group('download xmake', async () => {
+        const installer = await core.group(`download xmake ${version}`, async () => {
             // we cannot use appveyor ci artifacts, the old version links may be broken.
             const arch = os.arch() === 'x64' ? 'win64' : 'win32';
             const url = semver.gt(version, '2.2.6')
@@ -25,7 +30,7 @@ async function winInstall(version) {
             core.info(`downloaded to ${exe}`);
             return exe;
         });
-        toolDir = await core.group('install xmake', async () => {
+        toolDir = await core.group(`install xmake ${version}`, async () => {
             const binDir = path.join(os.tmpdir(), `xmake-${version}`);
             core.info(`installing to ${binDir}`);
             await exec_1.exec(`"${installer}" /NOADMIN /S /D=${binDir}`);
@@ -41,8 +46,8 @@ async function winInstall(version) {
 async function unixInstall(version, sha) {
     let toolDir = toolCache.find('xmake', version);
     if (!toolDir) {
-        const sourceDir = await core.group('download xmake', () => git.create(sha));
-        toolDir = await core.group('install xmake', async () => {
+        const sourceDir = await core.group(`download xmake ${version}`, () => git.create(sha));
+        toolDir = await core.group(`install xmake ${version}`, async () => {
             await exec_1.exec('make', ['build'], { cwd: sourceDir });
             const binDir = path.join(os.tmpdir(), `xmake-${version}-${sha}`);
             await exec_1.exec('make', ['install', `prefix=${binDir}`], { cwd: sourceDir });
@@ -64,7 +69,7 @@ async function run() {
     try {
         const { version, sha } = await versions_1.selectVersion();
         if (os.platform() === 'win32' || os.platform() === 'cygwin')
-            await winInstall(version);
+            await winInstall(version, sha);
         else
             await unixInstall(version, sha);
         await exec_1.exec('xmake --version');

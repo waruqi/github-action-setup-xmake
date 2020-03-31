@@ -12,7 +12,7 @@ async function selectVersion(version) {
     if (version.startsWith('branch@')) {
         const branch = version.substr(7);
         core.info(`Selected xmake branch: ${branch}`);
-        return { version: branch, sha: branch };
+        return { version: version, sha: branch };
     }
     // select version
     version = semver.validRange(version);
