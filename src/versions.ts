@@ -3,8 +3,19 @@ import * as semver from 'semver';
 import { lsRemote } from './git';
 
 export async function selectVersion(version?: string): Promise<{ version: string; sha: string }> {
+
+    // get version string
     version = (version ?? core.getInput('xmake-version')) || 'latest';
     if (version.toLowerCase() === 'latest') version = '';
+
+    // select branch
+    if (version.startsWith('@')) {
+        const branch = version.substr(1);
+        core.info(`selected xmake branch: ${branch}`);
+        return { version: branch, sha: "" };
+    }
+
+    // select version
     version = semver.validRange(version);
     if (!version) {
         throw new Error(`Invalid input xmake-version: ${core.getInput('xmake-version')}`);

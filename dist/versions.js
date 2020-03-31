@@ -4,9 +4,17 @@ const core = require("@actions/core");
 const semver = require("semver");
 const git_1 = require("./git");
 async function selectVersion(version) {
+    // get version string
     version = (version !== null && version !== void 0 ? version : core.getInput('xmake-version')) || 'latest';
     if (version.toLowerCase() === 'latest')
         version = '';
+    // select branch
+    if (version.startsWith('@')) {
+        const branch = version.substr(1);
+        core.info(`selected xmake branch: ${branch}`);
+        return { version: branch, sha: "" };
+    }
+    // select version
     version = semver.validRange(version);
     if (!version) {
         throw new Error(`Invalid input xmake-version: ${core.getInput('xmake-version')}`);
