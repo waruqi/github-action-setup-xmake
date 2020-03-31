@@ -15,7 +15,7 @@ jobs:
     - uses: actions/checkout@v1
     - uses: waruqi/github-action-setup-xmake@test
       with:
-        xmake-version: branch@test
+        xmake-version: latest
     - name: Run tests
       run: |
         xmake create -P test
