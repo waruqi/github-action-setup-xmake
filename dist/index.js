@@ -54,12 +54,16 @@ async function unixInstall(version, sha) {
             await exec_1.exec('make', ['build'], { cwd: sourceDir });
             const binDir = path.join(os.tmpdir(), `xmake-${version}-${sha}`);
             await exec_1.exec('make', ['install', `prefix=${binDir}`], { cwd: sourceDir });
+            core.info(`111111`);
             const cacheDir = await toolCache.cacheDir(binDir, 'xmake', version);
+            core.info(`2222`);
             await io.rmRF(binDir);
             await git.cleanup(sha);
+            core.info(`3333`);
             return cacheDir;
         });
     }
+    core.info(`4444`);
     // for versions 2.3.2 and above, xmake will be installed directly into the bin directory, and no script will be used to wrap it.
     if (version.startsWith("branch@") || semver.gt(version, '2.3.1')) {
         core.addPath(path.join(toolDir, 'bin'));
