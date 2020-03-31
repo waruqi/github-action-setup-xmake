@@ -9,19 +9,21 @@ import * as git from './git';
 import { selectVersion } from './versions';
 
 async function winInstall(version: string, sha: string): Promise<void> {
-    if (version.startsWith("branch@")) {
-        const { version, sha } = await selectVersion("latest");
-        await winInstall(version, sha);
-        return ;
-    }
     let toolDir = toolCache.find('xmake', version);
     if (!toolDir) {
         const installer = await core.group(`download xmake ${version}`, async () => {
-            // we cannot use appveyor ci artifacts, the old version links may be broken.
-            const arch = os.arch() === 'x64' ? 'win64' : 'win32';
-            const url = semver.gt(version, '2.2.6')
-                ? `https://github.com/xmake-io/xmake/releases/download/v${version}/xmake-v${version}.${arch}.exe`
-                : `https://github.com/xmake-io/xmake/releases/download/v${version}/xmake-v${version}.exe`;
+            let url = "";
+            if (version.startsWith("branch@")) {
+                // we only use appveyor ci artifacts for branch version
+                const arch = os.arch() === 'x64' ? 'x64' : 'x86';
+                url = `https://ci.appveyor.com/api/projects/waruqi/xmake/artifacts/xmake-installer.exe?tag=${sha}&pr=false&job=Image%%3A+Visual+Studio+2017%%3B+Platform%%3A+${arch}`;
+            } else {
+                // we cannot use appveyor ci artifacts, the old version links may be broken.
+                const arch = os.arch() === 'x64' ? 'win64' : 'win32';
+                url = semver.gt(version, '2.2.6')
+                    ? `https://github.com/xmake-io/xmake/releases/download/v${version}/xmake-v${version}.${arch}.exe`
+                    : `https://github.com/xmake-io/xmake/releases/download/v${version}/xmake-v${version}.exe`;
+            }
             core.info(`downloading from ${url}`);
             const file = await toolCache.downloadTool(url);
             const exe = path.format({ ...path.parse(file), ext: '.exe', base: undefined });
