@@ -65,6 +65,11 @@ export async function winInstall(version: Version, latest: Version): Promise<voi
             await io.rmRF(installer);
             return cacheDir;
         });
+        core.info('==================================');
+        core.info(`ver to ${ver}`);
+        await exec(`"${toolDir}/xmake.exe" --version`);
+        await exec(`"${toolDir}/xmake.exe" l os.programdir`);
+        await exec(`"${toolDir}/xmake.exe" l os.programfile`);
     }
     core.addPath(toolDir);
 }

@@ -82887,6 +82887,11 @@ async function winInstall(version, latest) {
             await io.rmRF(installer);
             return cacheDir;
         });
+        core.info('==================================');
+        core.info(`ver to ${ver}`);
+        await (0, exec_1.exec)(`"${toolDir}/xmake.exe" --version`);
+        await (0, exec_1.exec)(`"${toolDir}/xmake.exe" l os.programdir`);
+        await (0, exec_1.exec)(`"${toolDir}/xmake.exe" l os.programfile`);
     }
     core.addPath(toolDir);
 }
