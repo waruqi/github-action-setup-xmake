@@ -82522,7 +82522,7 @@ async function getBuildCachePath() {
                     buildCachePath += data.toString();
                 },
             };
-            await (0, exec_1.exec)('xmake', [
+            await (0, exec_1.exec)('echo', [
                 'l',
                 '-c',
                 'import("core.project.config"); import("private.cache.build_cache"); config.load(); print(build_cache.rootdir())',

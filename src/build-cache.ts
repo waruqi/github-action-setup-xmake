@@ -66,16 +66,15 @@ async function getBuildCachePath(): Promise<string> {
                     buildCachePath += data.toString();
                 },
             };
-            /*
             await exec(
-                'xmake',
+                'echo',
                 [
                     'l',
                     '-c',
                     'import("core.project.config"); import("private.cache.build_cache"); config.load(); print(build_cache.rootdir())',
                 ],
                 options,
-            );*/
+            );
             buildCachePath = buildCachePath.trim();
             if (buildCachePath !== '' && !path.isAbsolute(buildCachePath)) {
                 buildCachePath = path.join(projectRootPath, buildCachePath);
