@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         os: [windows-11-arm]
-        version: [latest, branch@master, branch@dev]
+        version: [branch@test]
 
     runs-on: ${{ matrix.os }}
 
