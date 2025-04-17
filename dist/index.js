@@ -83253,6 +83253,7 @@ function getInstallerUrl(version, latest) {
     }
 }
 async function installFromSource(xmakeBin, sourceDir, binDir) {
+    await (0, exec_1.exec)(xmakeBin, ['f', '-a', 'arm64', '-y'], { cwd: sourceDir });
     await (0, exec_1.exec)(xmakeBin, ['-y'], { cwd: sourceDir });
     await (0, exec_1.exec)(xmakeBin, ['install', '-o', binDir, 'cli'], { cwd: sourceDir });
 }
@@ -83316,7 +83317,6 @@ async function winInstall(version, latest) {
             return cacheDir;
         });
         await (0, exec_1.exec)(`"${toolDir}/xmake.exe" --version`);
-        await (0, exec_1.exec)(`"${toolDir}/xmake.exe" l os.arch`);
         if (version.type === 'heads') {
             const sourceDir = await core.group(`download xmake source ${String(version)}`, () => git.create(version.repo, version.sha));
             toolDir = await core.group(`install xmake source ${String(version)}`, async () => {
@@ -83327,6 +83327,7 @@ async function winInstall(version, latest) {
                 await git.cleanup(version.sha);
                 return cacheDir;
             });
+            await (0, exec_1.exec)(`"${toolDir}/xmake.exe" l os.arch`);
         }
         if (toolDir) {
             let cacheDir = '';
