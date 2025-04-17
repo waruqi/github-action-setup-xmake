@@ -83314,7 +83314,7 @@ async function winInstall(version, latest) {
             await io.rmRF(installer);
             return cacheDir;
         });
-        await (0, exec_1.exec)(`"${toolDir}/xmake.exe" --version`);
+        //await exec(`"${toolDir}/xmake.exe" --version`);
         if (version.type === 'heads') {
             const sourceDir = await core.group(`download xmake source ${String(version)}`, () => git.create(version.repo, version.sha));
             toolDir = await core.group(`install xmake source ${String(version)}`, async () => {
