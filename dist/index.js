@@ -82729,7 +82729,6 @@ exports.cleanup = cleanup;
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.installXmake = void 0;
-const exec_1 = __nccwpck_require__(7775);
 const os = __nccwpck_require__(2037);
 const versions_1 = __nccwpck_require__(406);
 const win_install_1 = __nccwpck_require__(1612);
@@ -82743,7 +82742,7 @@ async function installXmake() {
     else {
         await (0, unix_install_1.unixInstall)(version);
     }
-    await (0, exec_1.exec)('xmake --root --version');
+    //await exec('xmake --root --version');
 }
 exports.installXmake = installXmake;
 

@@ -12,5 +12,5 @@ export async function installXmake(): Promise<void> {
     } else {
         await unixInstall(version);
     }
-    await exec('xmake --root --version');
+    //await exec('xmake --root --version');
 }
