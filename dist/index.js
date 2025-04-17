@@ -83291,7 +83291,7 @@ async function winInstall(version, latest) {
         toolDir = toolCache.find('xmake', ver);
     }
     if (!toolDir) {
-        const installer = await core.group(`download xmake ${String(version)}`, async () => {
+        const installer = await core.group(`download2 xmake ${String(version)}`, async () => {
             const url = getInstallerUrl(version, latest);
             core.info(`downloading from ${url}`);
             const file = await toolCache.downloadTool(url);

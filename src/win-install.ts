@@ -84,7 +84,7 @@ export async function winInstall(version: Version, latest: Version): Promise<voi
     }
 
     if (!toolDir) {
-        const installer = await core.group(`download xmake ${String(version)}`, async () => {
+        const installer = await core.group(`download2 xmake ${String(version)}`, async () => {
             const url = getInstallerUrl(version, latest);
             core.info(`downloading from ${url}`);
             const file = await toolCache.downloadTool(url);
