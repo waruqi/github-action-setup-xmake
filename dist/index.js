@@ -83254,7 +83254,7 @@ function getInstallerUrl(version, latest) {
 }
 async function installFromSource(xmakeBin, sourceDir, binDir) {
     await (0, exec_1.exec)(xmakeBin, ['f', '-a', 'arm64', '-y'], { cwd: sourceDir });
-    await (0, exec_1.exec)(xmakeBin, ['-v', '-y'], { cwd: sourceDir });
+    await (0, exec_1.exec)(xmakeBin, ['-y'], { cwd: sourceDir });
     await (0, exec_1.exec)(xmakeBin, ['install', '-o', binDir, 'cli'], { cwd: sourceDir });
 }
 async function winInstall(version, latest) {
