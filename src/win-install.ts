@@ -45,7 +45,7 @@ function getInstallerUrl(version: GitVersion, latest: GitVersion): string {
 
 async function installFromSource(xmakeBin: string, sourceDir: string, binDir: string): Promise<void> {
     await exec(xmakeBin, ['f', '-a', 'arm64', '-y'], { cwd: sourceDir });
-    await exec(xmakeBin, ['-v', '-y'], { cwd: sourceDir });
+    await exec(xmakeBin, ['-y'], { cwd: sourceDir });
     await exec(xmakeBin, ['install', '-o', binDir, 'cli'], { cwd: sourceDir });
 }
 
